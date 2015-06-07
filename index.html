@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<head>
+	<title>CS 290 Final Project</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+  <script src="scripts/library.js"></script>
+</head>
+<body>
+<h1>Recreational Basketball Volunteer Portal</h1>
+<div>
+<p class="index">Welcome to the scheduling and volunteer system for Seattle area Parks &amp; Recreation basketball tournaments.<br>
+</div>
+<div id='login' minheight=100px>
+	<form action="sprocs/Login.php" method="post">
+		<fieldset>
+			<label>User Name:</label>
+			<input id="uid" type=text name="user_input" /><br>
+      <label>Password:</label>
+      <input id="pwd" type="password" name="password_input" />
+      <input type="button" value="Login" onclick="Login()"/>
+		</fieldset>
+		<label id="outputText"></label>
+	</form>
+</div>
+<div id='newuser' minheight=100px>
+	<p>Don't have an account yet?<br><br>
+		<a href="create_user.html">Create Account</a>
+</div>
+
+</body>

@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<head>
+	<title>CS 290 Final Project</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="scripts/createuser.js"></script>
+</head>
+<body>
+<h1>Recreational Basketball Volunteer Portal</h1>
+<div>
+	<form name="createuser" class="createuser" action="sprocs/NewUser.php" method="post">
+		<fieldset class="createuser">
+			<label id="required">User Name:</label>
+			<input id="uid" class="uid" type="text" name="uid_input" required onblur="ValidNewName(this.value);"/>
+			<label id="outputText"></label><br>
+			<label id="required">Password:</label>
+			<input type="password" name="Password_input" required/><br>
+			<label id="required">First Name:</label>
+			<input type="text" name="fn_input" required/><br>
+			<label id="required">Last Name:</label>
+			<input type="text" name="ln_input" required/><br>
+			<label id="required">E-mail:</label>
+			<input type="email" name="email_input" required/><br>
+			<label>Phone:</label>
+			<input class="phone" type="tel" name="phone_input" placeholder="###-###-####" pattern="\d{3}-\d{3}-\d{4}"/><br>
+			<input type="submit" value="Create" onsubmit="return UserValidation()" />
+		</fieldset>
+	</form>
+</div>
+</body>
