@@ -29,5 +29,5 @@ $mysqli->close();
 }
 
 flush();
-header("Location: http://web.engr.oregonstate.edu/~reitanc/CS494/Final/index.html");
+header("Location: http://web.engr.oregonstate.edu/~reitanc/CS290-FinalProject/index.html");
 exit();
