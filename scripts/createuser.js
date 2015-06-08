@@ -36,7 +36,7 @@ function ValidNewName(NewValue) {
   document.location=arraytext;
   // End -->
 
-  var URL = arraytext.'/ValidNewName.php';
+  var URL = arraytext."/ValidNewName.php";
   var parameters = {'username': NewValue};
   var Return = ajaxRequest(URL, 'POST', parameters);
   var OutputBox = document.getElementById('outputText');
