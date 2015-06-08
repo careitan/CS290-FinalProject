@@ -4,6 +4,16 @@
 // Do not modifiy this header section of the file.
 
 // BEGIN UTILITY AND HELPER FUNCTIONS
+// Sleeper Function to pause execution while waiting for a timer.
+function pause_exec(ms)
+{
+	var date = new Date();
+	var curDate = null;
+	
+	do { curDate = new Date(); }
+	while(curDate-date < ms);
+}
+
 function RegExStringChar(TstVar) {
 // Check for invalid characters prior to submitting Form.
 // Acceptable characters for fields will be: A-Z, a-z, 0-9, -, and _
@@ -68,7 +78,7 @@ function localStorageExists() {
 // END UTILITY AND HELPER FUNCTIONS
 
 // METHOD FUNCTIONS FOR USE ON A WEB FORM
-function ajaxRequest(URL, Type, Parameters) {
+function ajaxRequest(URL, Type, Parameters, Async) {
 // Populating a null RetVal object.
 // https://piazza.com/class/i0j5uszbfur1jw?cid=238
 // Student Johnathan Moore
@@ -81,76 +91,84 @@ var Param;
 var URLParams = [];
 var req = new XMLHttpRequest();
 if (!req) {
-  throw 'Unable to create HTTPRequest';
+	throw 'Unable to create HTTPRequest';
 }
 
 // Set Default value of Success Flag.
-blnSuccess = true;
+//blnSuccess = true;
 
 if (Type !== 'GET' && Type !== 'POST') {
-  RetVal.success = false;
-  RetVal.code = 1;
-  RetVal.codeDetail = 'Syntax Error - Populating Type [GET | POST]';
+	RetVal.success = false;
+	RetVal.code = 1;
+	RetVal.codeDetail = 'Syntax Error - Populating Type [GET | POST]';
 
 } else if (Parameters === null) {
-  RetVal.success = false;
-  RetVal.code = 3;
-  RetVal.codeDetail = 'Parameters are not populated.';
+	RetVal.success = false;
+	RetVal.code = 3;
+	RetVal.codeDetail = 'Parameters are not populated.';
 } else {
 // Setup the URLParams based off of type of Form.
 for (var Key in Parameters) {
-  if (Parameters.hasOwnProperty(Key)) {
-    if (typeof (Parameters[Key]) !== 'string' && blnSuccess) {
-      RetVal.success = false;
-      RetVal.code = 5;
-      RetVal.codeDetail = 'Parameter[' + i + '] is not a string.';
+	if (Parameters.hasOwnProperty(Key)) {
+		if (typeof (Parameters[Key]) !== 'string' && blnSuccess) {
+			RetVal.success = false;
+			RetVal.code = 5;
+			RetVal.codeDetail = 'Parameter[' + i + '] is not a string.';
 
-    } else {
-      Param = encodeURIComponent(Key) + '=' +
-      encodeURIComponent(Parameters[Key]);
-      URLParams.push(Param);
-    }
-  }
+		} else {
+			Param = encodeURIComponent(Key) + '=' +
+			encodeURIComponent(Parameters[Key]);
+			URLParams.push(Param);
+		}
+	}
 }
+// Prepare the Web Request with the Call Back processing function.
+// req.onreadystatechange = ProcessContents;
 
 // Prepare the WebRequest based on the type of method we are using
 if (Type === 'GET') {
-  req.open('GET', URL + '?' + URLParams.join('&'), true);
-  req.send(null);
+	req.open('GET', URL + '?' + URLParams.join('&'), Async);
+	req.send(null);
 } else {
 // Setting up for POST
-req.open('POST', URL, true);
+req.open('POST', URL, Async);
 req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 req.send(URLParams.join('&'));
 }
 }
 
+if (!Async) {
+	if (!RetVal.code) {
+		RetVal.code = req.status;
+		RetVal.codeDetail = req.responseText;
+		RetVal.response = req.response;
+		return RetVal;
+	}
+};
+
 // Setup the Async or end state to catch the output
-if (blnSuccess) {
-  req.onreadystatechange = function() {
-    if (this.readyState === 4) {
-      if (this.status !== 200) {
-        RetVal.success = false;
-      } else {
-        RetVal.success = true;
-      }
+//if (blnSuccess) {
+	req.onreadystatechange = function ProcessContents() {
+		//function ProcessContents() {
+			if (this.readyState === 4) {
+				if (this.status !== 200) {
+					RetVal.success = false;
+				} else {
+					RetVal.success = true;
+				}
 
-      RetVal.code = this.status;
-      RetVal.codeDetail = this.responseText;
-      RetVal.response = this.response;
-    }
-  };
+				RetVal.code = this.status;
+				RetVal.codeDetail = this.responseText;
+				//alert(RetVal.codeDetail);
+				RetVal.response = this.response;
+			}
+//		};
+return RetVal;
+};
 
-  if (!RetVal.code) {
-    RetVal.code = req.status;
-    RetVal.codeDetail = req.responseText;
-    RetVal.response = req.response;
-  }
-
-  return RetVal;
-} else {
-  return RetVal;
-}
+//} else {
+// 	return RetVal;
+// }
 }
 
 // FUNCTIONS CALLED FROM WEB APP OR FORMS
@@ -172,20 +190,27 @@ function Login() {
   //document.location=arraytext;
   // End -->
 
-  var URL = arraytext + "spocs/Login.php"
+  var URL = arraytext + "sprocs/Login.php"
   var Param = {'user':UID, 'password':PWD};
   
-  var Return = ajaxRequest(URL, 'POST', Param);
+  //var Return = ajaxRequest(URL, 'POST', Param, true);
+  var Return = ajaxRequest(URL, 'POST', Param, false);
+  
+  // for (var i = 0; i <= 4; i++) {
+  // 	pause_exec(1000);
+  // }
 
-  if (Return.response > 0){
+  if (Return.codeDetail > 0) {
   	// Process the successful login condition.
   	if (localStorageExists()) {
   	// Need to write the local values into local storage for the Login return value.
+  	var Results = JSON.parse(Return.response);
   	localStorage.setItem('CS290FPUserName', UID);
-  	localStorage.setItem('CS290FPUserID', Return.response);
+  	localStorage.setItem('CS290FPUserID', Results.codeDetail);
   	localStorage.setItem('CS290FPLoggedOn', "true");
-  	window.location.href = arraytext + "index.html";
-  } else {
+  	window.location.href = arraytext + "home.html";
+  	}
+	} else {
   	// Process the Sorry no login.
   	var OutputBox = document.getElementById('outputText');
   	if (OutputBox !== null) {
@@ -197,7 +222,6 @@ function Login() {
   		document.getElementById('pwd').value = "";
   	};
   };
-}
 }
 
 function LoginValidation() {
