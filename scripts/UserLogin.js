@@ -31,9 +31,9 @@ window.onload = function() {
   	if (UserName === null && UserID === null && LoggedOn === null) {
   		window.location.href = arraytext + "index.html";
   	}
-  	if (LoggedOn !== 1 || UserID > 0) {
-  		window.location.href = arraytext + "index.html";
-  	};
+  	// if (LoggedOn != true) {
+  	// 	window.location.href = arraytext + "index.html";
+  	// };
 
   } else if (LSVerf !== true && OutputBox !== null) {
     OutputBox.innerHTML = 'Local Storage is not available.';

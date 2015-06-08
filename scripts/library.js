@@ -207,7 +207,7 @@ function Login() {
   	var Results = JSON.parse(Return.response);
   	localStorage.setItem('CS290FPUserName', UID);
   	localStorage.setItem('CS290FPUserID', Results.codeDetail);
-  	localStorage.setItem('CS290FPLoggedOn', "true");
+  	localStorage.setItem('CS290FPLoggedOn', true);
   	window.location.href = arraytext + "home.html";
   	}
 	} else {

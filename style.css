@@ -50,3 +50,29 @@ fieldset.createuser+input {
 	font-style: italic;
 	font-size: 600;
 }
+
+#menuList {
+	background-color: #396;
+	color: #fff;
+	list-style-type: none;
+	margin: 0;
+	padding: .3em 0;
+	text-align: center;
+}
+
+#menuList li {
+	display: inline;
+	padding: 0 .5em;
+}
+
+#menuList li a {
+	background-color: transparent;
+	color: #fff;
+	padding: .1em .5em;
+	text-decoration: none;
+}
+
+#menuList li a:hover {
+	background-color: #0c0;
+	color: #fff;
+}
