@@ -8,7 +8,7 @@ function RegExStringChar(TstVar) {
 // Check for invalid characters prior to submitting Form.
 // Acceptable characters for fields will be: A-Z, a-z, 0-9, -, and _
 // REF: http://stackoverflow.com/questions/7958718/javascript-regex-to-return-if-string-contains-characters-that-are-not-in-the-reg
-  return TstVar.match(/[^A-Za-z0-9\-_/]);
+  return TstVar.match(/[^A-Za-z0-9\-_]/);
 }
 
 function RegExPhoneChar(TstVar) {
@@ -16,7 +16,7 @@ function RegExPhoneChar(TstVar) {
 // Acceptable characters for fields will be: 0-9, -, and +
 // REF: http://stackoverflow.com/questions/7958718/javascript-regex-to-return-if-string-contains-characters-that-are-not-in-the-reg
 // Refactored by Allan Reitan to match phone number patterns.
-  return TstVar.match(/[^0-9\-+/]);
+  return TstVar.match(/[^0-9\-+]/);
 }
 // END UTILITY AND HELPER FUNCTIONS
 
