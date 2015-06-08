@@ -11,32 +11,32 @@ if (isset($_POST)) {
 	$TEL = htmlspecialchars($_POST["phone_input"]);
 	$UID = htmlspecialchars($_POST["uid_input"]);
 	$PWD = htmlspecialchars($_POST["Password_input"]);
-	$AlertMessage = "";
+	$AlertMessage = '';
 
 // Input Validation Check
 // REF: http://www.phpf1.com/tutorial/php-regular-expression.html
-	$patternSTR = "/^[a-zA-Z0-9._-]$/";
+	$patternSTR = "/^[a-zA-Z0-9_-]$/";
 	$patternEmail = "/^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z.]{2,5}$/";
 	$patternPhone = "/^[0-9._-]$/";
 
-	if (!preg_match($patternSTR, $UID)) {
+	if (preg_match($patternSTR, $UID)) {
 		$AlertMessage += "User Name field has some invalid characters.\n";
 	}
-	if (!preg_match($patternSTR, $FN)) {
+	if (preg_match($patternSTR, $FN)) {
 		$AlertMessage += "First Name field has some invalid characters.\n";
 	}
-	if (!preg_match($patternSTR, $LN)) {
+	if (preg_match($patternSTR, $LN)) {
 		$AlertMessage += "Last Name field has some invalid characters.\n";
 	}
-	if (!preg_match($patternEmail, $EMAIL)) {
+	if (preg_match($patternEmail, $EMAIL)) {
 		$AlertMessage += "Email field has some invalid characters.\n";
 	}
-	if (!preg_match($patternPhone, $TEL)) {
+	if (preg_match($patternPhone, $TEL)) {
 		$AlertMessage += "Phone field has some invalid characters.\n";
 	}
 
 	// Test for No Alert Messages - Assume good inputs.
-	if (trim($AlertMessage)==='' ) {
+	if (isset($AlertMessage) || trim($AlertMessage)==='' || strlen(trim($AlertMessage)) == 0) {
 
 		$TSQL = 'INSERT INTO users (FN, LN, phone, email, uname, pwd) 
 		VALUES (?, ?, ?, ?, ?, ?)';
@@ -52,12 +52,15 @@ if (isset($_POST)) {
 
 		$stmnt->close();
 		$mysqli->close();
-	} else {
-		// Return Messageto client of failure to process inputs.
-		echo $AlertMessage;
-	}
-}
 
-flush();
-header("Location: http://web.engr.oregonstate.edu/~reitanc/CS290-FinalProject/index.html");
-exit();
+		flush();
+		header("Location: http://web.engr.oregonstate.edu/~reitanc/CS290-FinalProject/index.html");
+		exit();
+	} else {
+		// Return Message to client of failure to process inputs.
+		exit($AlertMessage);
+	}
+} else {
+		// Return POST not Set
+		exit("POST Not Set for Form.");
+}

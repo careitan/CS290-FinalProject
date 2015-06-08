@@ -10,19 +10,19 @@
 	<form name="createuser" class="createuser" action="sprocs/NewUser.php" method="post">
 		<fieldset class="createuser">
 			<label id="required">User Name:</label>
-			<input id="uid" class="uid" type="text" name="uid_input" required onblur="ValidNewName(this.value);"/>
-			<label id="outputText"></label><br>
+			<input id="uid" class="uid" type="text" name="uid_input" required onblur="ValidNewName(this.value);"/><br>
 			<label id="required">Password:</label>
 			<input type="password" name="Password_input" required/><br>
 			<label id="required">First Name:</label>
-			<input type="text" name="fn_input" required/><br>
+			<input type="text" name="fn_input" required onblur="UserValidation();"/><br>
 			<label id="required">Last Name:</label>
-			<input type="text" name="ln_input" required/><br>
+			<input type="text" name="ln_input" required onblur="UserValidation();"/><br>
 			<label id="required">E-mail:</label>
-			<input type="email" name="email_input" required/><br>
+			<input type="email" name="email_input" required onblur="UserValidation();"/><br>
 			<label>Phone:</label>
-			<input class="phone" type="tel" name="phone_input" placeholder="###-###-####" pattern="\d{3}-\d{3}-\d{4}"/><br>
-			<input type="submit" value="Create" onSubmit="return UserValidation();" />
+			<input class="phone" type="tel" name="phone_input" placeholder="###-###-####" pattern="\d{3}-\d{3}-\d{4}" onblur="UserValidation();"/><br>
+			<input type="submit" value="Create" onSubmit="UserValidation();" /><br>
+			<label id="outputText"></label><br>
 		</fieldset>
 	</form>
 </div>

@@ -8,7 +8,14 @@ function RegExStringChar(TstVar) {
 // Check for invalid characters prior to submitting Form.
 // Acceptable characters for fields will be: A-Z, a-z, 0-9, -, and _
 // REF: http://stackoverflow.com/questions/7958718/javascript-regex-to-return-if-string-contains-characters-that-are-not-in-the-reg
-  return TstVar.match(/[^A-Za-z0-9\-_]/);
+  return TstVar.match(/[^A-Za-z0-9]/);
+}
+
+function RegExEmailChar(TstVar) {
+// Check for invalid characters prior to submitting Form.
+// Acceptable characters for fields will be: A-Z, a-z, 0-9, -, and _
+// REF: http://www.zparacha.com/validate-email-address-using-javascript-regular-expression/
+  return TstVar.match(/^[a-zA-Z0-9._-]+\@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
 }
 
 function RegExPhoneChar(TstVar) {
@@ -16,7 +23,7 @@ function RegExPhoneChar(TstVar) {
 // Acceptable characters for fields will be: 0-9, -, and +
 // REF: http://stackoverflow.com/questions/7958718/javascript-regex-to-return-if-string-contains-characters-that-are-not-in-the-reg
 // Refactored by Allan Reitan to match phone number patterns.
-  return TstVar.match(/[^0-9\-+]/);
+  return TstVar.match(/[^0-9-+]/);
 }
 // END UTILITY AND HELPER FUNCTIONS
 
@@ -32,18 +39,18 @@ function ValidNewName(NewValue) {
   var locarray = myloc.split("/");
   delete locarray[(locarray.length-1)];
   var arraytext = locarray.join("/");
-  alert(arraytext);
-  document.location=arraytext;
+  //alert(arraytext);
+  //document.location=arraytext;
   // End -->
 
-  var URL = arraytext."/ValidNewName.php";
+  var URL = arraytext + "ValidNewName.php";
   var parameters = {'username': NewValue};
   var Return = ajaxRequest(URL, 'POST', parameters);
   var OutputBox = document.getElementById('outputText');
 
   if (Return.response === 'false') {
     OutputBox.innerHTML = 'Username is already in use.';
-    OutputBox.style.font.fontcolor = red;
+    OutputBox.style.color = red;
   }
 }
 
@@ -142,35 +149,39 @@ function UserValidation() {
   var TstPhone = document.createuser.phone_input.value;
   var AlertMessage = '';
   var ReturnVal;
+  var OutputBox = document.getElementById('outputText');
 
 // Check for invalid characters prior to submitting Form.
 // Acceptable characters for fields will be: A-Z, a-z, 0-9, -, and _
 // Acceptable characters for the phone field will be +, -, 0-9
-  if (!RegExStringChar(TstUsrName)) {
-    AlertMessage += "User Name contains invalid characters.\n";
+  if (RegExStringChar(TstUsrName) && TstUsrName.length > 0) {
+    AlertMessage += "<br>User Name contains invalid characters.";
   };
-  if (!RegExStringChar(TstPwd)) {
-    AlertMessage += "Password contains invalid characters.\n";
+  if (RegExStringChar(TstPwd) && TstPwd.length > 0) {
+    AlertMessage += "<br>Password contains invalid characters.";
   };
-  if (!RegExStringChar(TstFN)) {
-    AlertMessage += "First Name contains invalid characters.\n";
+  if (RegExStringChar(TstFN) && TstFN.length > 0) {
+    AlertMessage += "<br>First Name contains invalid characters.";
   };
-    if (!RegExStringChar(TstLN)) {
-    AlertMessage += "Last Name contains invalid characters.\n";
+  if (RegExStringChar(TstLN) && TstLN.length > 0) {
+    AlertMessage += "<br>Last Name contains invalid characters.";
   };
-  if (!RegExStringChar(TstEmail)) {
-    AlertMessage += "E-mail contains invalid characters.\n";
+  if (RegExEmailChar(TstEmail) && TstEmail.length > 0) {
+    AlertMessage += "<br>E-mail contains invalid characters.";
   };
-  if (!RegExPhoneChar(TstPhone)) {
-    AlertMessage += "Phone contains invalid characters.\n";
+  if (RegExPhoneChar(TstPhone) && TstPhone.length > 0) {
+    AlertMessage += "<br>Phone contains invalid characters.";
   };
 
 // Check for the AlertMessaage to be empty before proceeding.
 // REF: http://www.webcosmoforums.com/javascript-ajax/25689-how-check-if-string-null-empty-javascript.html
   if (AlertMessage && AlertMessage!='') {
+    OutputBox.innerHTML = AlertMessage;
+    OutputBox.style.color = red;
     alert(AlertMessage);
     ReturnVal = false;
   } else {
+    OutputBox.innerHTML = "";
     ReturnVal = true;
   };
 
