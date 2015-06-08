@@ -21,7 +21,7 @@
 			<input type="email" name="email_input" required onblur="UserValidation();"/><br>
 			<label>Phone:</label>
 			<input class="phone" type="tel" name="phone_input" placeholder="###-###-####" pattern="\d{3}-\d{3}-\d{4}" onblur="UserValidation();"/><br>
-			<input type="submit" value="Create" onSubmit="UserValidation();" /><br>
+			<input id="CreateUser" type="submit" value="Create" onSubmit="UserValidation();" disabled/><br>
 			<label id="outputText"></label><br>
 		</fieldset>
 	</form>

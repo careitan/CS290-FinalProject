@@ -18,6 +18,22 @@ function RegExEmailChar(TstVar) {
   return TstVar.match(/^[a-zA-Z0-9._-]+\@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
 }
 
+function ValidateEmailString(TstVar) {
+  // Just a fast on the fly way to determine if the string has a @ and a . in the second half.
+  var TstString1 = TstVar.substring(0, TstVar.indexOf("@"));
+  var TstString2 = TstVar.substring(TstVar.indexOf("@") + 1, TstVar.length);
+  var TstString3 = TstString2.substring(TstString2.indexOf(".")+1, TstString2.length);
+
+  if (TstString1 && TstString1.length > 0 &&
+    TstString2 && TstString2.length > 0 &&
+    TstString3 && TstString3.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+
+}
+
 function RegExPhoneChar(TstVar) {
 // Check for invalid characters prior to submitting Form.
 // Acceptable characters for fields will be: 0-9, -, and +
@@ -50,7 +66,7 @@ function ValidNewName(NewValue) {
 
   if (Return.response === 'false') {
     OutputBox.innerHTML = 'Username is already in use.';
-    OutputBox.style.color = red;
+    OutputBox.style.font.color = 'red';
   }
 }
 
@@ -166,7 +182,7 @@ function UserValidation() {
   if (RegExStringChar(TstLN) && TstLN.length > 0) {
     AlertMessage += "<br>Last Name contains invalid characters.";
   };
-  if (RegExEmailChar(TstEmail) && TstEmail.length > 0) {
+  if (!ValidateEmailString(TstEmail)) {
     AlertMessage += "<br>E-mail contains invalid characters.";
   };
   if (RegExPhoneChar(TstPhone) && TstPhone.length > 0) {
@@ -177,11 +193,13 @@ function UserValidation() {
 // REF: http://www.webcosmoforums.com/javascript-ajax/25689-how-check-if-string-null-empty-javascript.html
   if (AlertMessage && AlertMessage!='') {
     OutputBox.innerHTML = AlertMessage;
-    OutputBox.style.color = red;
-    alert(AlertMessage);
+    OutputBox.style.font.color = "red";
+    //alert(AlertMessage);
+    document.getElementById('CreateUser').disabled = true;
     ReturnVal = false;
   } else {
     OutputBox.innerHTML = "";
+    document.getElementById('CreateUser').disabled = false;
     ReturnVal = true;
   };
 

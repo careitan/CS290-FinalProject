@@ -10,13 +10,13 @@
 <p class="index">Welcome to the scheduling and volunteer system for Seattle area Parks &amp; Recreation basketball tournaments.<br>
 </div>
 <div id='login' minheight=100px>
-	<form action="sprocs/Login.php" method="post">
+	<form name="userlogin" action="sprocs/Login.php" method="post">
 		<fieldset>
 			<label>User Name:</label>
-			<input id="uid" type=text name="user_input" /><br>
+			<input id="uid" type=text name="user_input" onkeypress="LoginValidation();" onblur="LoginValidation();" /><br>
       <label>Password:</label>
-      <input id="pwd" type="password" name="password_input" />
-      <input type="button" value="Login" onclick="Login()"/>
+      <input id="pwd" type="password" name="password_input" onkeypress="LoginValidation();" onblur="LoginValidation();" />
+      <input id="UserLogin" type="button" value="Login" onclick="Login();" disabled/>
 		</fieldset>
 		<label id="outputText"></label>
 	</form>

@@ -11,12 +11,59 @@ function RegExStringChar(TstVar) {
   return TstVar.match(/[^A-Za-z0-9\-_]/);
 }
 
+function RegExEmailChar(TstVar) {
+// Check for invalid characters prior to submitting Form.
+// Acceptable characters for fields will be: A-Z, a-z, 0-9, -, and _
+// REF: http://www.zparacha.com/validate-email-address-using-javascript-regular-expression/
+  return TstVar.match(/^[a-zA-Z0-9._-]+\@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
+}
+
+function ValidateEmailString(TstVar) {
+  // Just a fast on the fly way to determine if the string has a @ and a . in the second half.
+  var TstString1 = TstVar.substring(0, TstVar.indexOf("@"));
+  var TstString2 = TstVar.substring(TstVar.indexOf("@"), TstVar.length);
+  var TstString3 = TstString2.substring(0, TstString2.indexOf("."));
+
+  if (TstString1 && TstString1.length > 0 &&
+    TstString2 && TstString2.length > 0 &&
+    TstString3 && TstString3.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+  
+}
+
 function RegExPhoneChar(TstVar) {
 // Check for invalid characters prior to submitting Form.
 // Acceptable characters for fields will be: 0-9, -, and +
 // REF: http://stackoverflow.com/questions/7958718/javascript-regex-to-return-if-string-contains-characters-that-are-not-in-the-reg
 // Refactored by Allan Reitan to match phone number patterns.
   return TstVar.match(/[^0-9\-+]/);
+}
+
+function localStorageExists() {
+  var Sample;
+  var OutputBox = "Hello World";
+
+  // if (OutputBox !== null) {
+  //   OutputBox.innerHTML = 'Testing LS';
+  // } else {
+  //   return false;
+  // }
+
+  try {
+    localStorage.setItem('TestLS', OutputBox);
+    Sample = localStorage.getItem('TestLS');
+  } catch (e) {
+    return false;
+  }
+
+  if (Sample === 'Hello World') {
+    return true;
+  } else {
+    return false;
+  }
 }
 // END UTILITY AND HELPER FUNCTIONS
 
@@ -107,10 +154,61 @@ if (blnSuccess) {
 }
 
 // FUNCTIONS CALLED FROM WEB APP OR FORMS
-function Login(){
-  var UID = document.getElementById('uid');
-  var PWD = document.getElementById('pwd');
+function Login() {
+	var UID = document.userlogin.user_input.value;
+	var PWD = document.userlogin.password_input.value;
 
+	<!-- Original: Dan Worsham -->
 
+	<!-- This script and many more are available free online at -->
+  <!-- The JavaScript Source!! http://javascript.internet.com -->
+
+  <!-- Begin
+  var myloc = window.location.href;
+  var locarray = myloc.split("/");
+  delete locarray[(locarray.length-1)];
+  var arraytext = locarray.join("/");
+  //alert(arraytext);
+  //document.location=arraytext;
+  // End -->
+
+  var URL = arraytext + "spocs/Login.php"
+  var Param = {'user':UID, 'password':PWD};
+  
+  var Return = ajaxRequest(URL, 'POST', Param);
+
+  if (Return.response > 0){
+  	// Process the successful login condition.
+  	if (localStorageExists()) {
+  	// Need to write the local values into local storage for the Login return value.
+  	localStorage.setItem('CS290FPUserName', UID);
+  	localStorage.setItem('CS290FPUserID', Return.response);
+  	localStorage.setItem('CS290FPLoggedOn', "true");
+  	window.location.href = arraytext + "index.html";
+  } else {
+  	// Process the Sorry no login.
+  	var OutputBox = document.getElementById('outputText');
+  	if (OutputBox !== null) {
+  		OutputBox.innerHTML = "Login Unsuccessful!";
+  		OutputBox.style.font.color = "red";
+
+  		// Clear out the login boxes and let them try again.
+  		document.getElementById('uid').value = "";
+  		document.getElementById('pwd').value = "";
+  	};
+  };
+}
 }
 
+function LoginValidation() {
+	var UID = document.getElementById('uid').value;
+  var PWD = document.getElementById('pwd').value;
+
+  if (UID && UID.length > 0 && PWD && PWD.length > 0) {
+  	document.getElementById('UserLogin').disabled = false;
+  } else {
+  	document.getElementById('UserLogin').disabled = true;
+  };
+
+	return;
+}
