@@ -31,6 +31,9 @@ window.onload = function() {
   	if (UserName === null && UserID === null && LoggedOn === null) {
   		window.location.href = arraytext + "index.html";
   	}
+  	if (LoggedOn !== 1 || UserID > 0) {
+  		window.location.href = arraytext + "index.html";
+  	};
 
   } else if (LSVerf !== true && OutputBox !== null) {
     OutputBox.innerHTML = 'Local Storage is not available.';
@@ -41,6 +44,17 @@ window.onload = function() {
   }
 
 }
+
+function closeOut() {
+	var OutputBox = document.getElementById('MessageOut');
+  var LSVerf = localStorageExists();
+
+  if (LSVerf === true) {
+  	localStorage.setItem('CS290FPUserName', null);
+  	localStorage.setItem('CS290FPUserID', null);
+  	localStorage.setItem('CS290FPLoggedOn', null);
+  }
+} 
 
 function localStorageExists() {
   var Sample;
