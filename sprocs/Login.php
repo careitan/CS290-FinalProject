@@ -7,8 +7,4 @@ if (isset($_POST)) {
 // Start the Login Process and Set the Session Value.
 
 
-
-
-
-
 }  
