@@ -50,9 +50,9 @@ function closeOut() {
   var LSVerf = localStorageExists();
 
   if (LSVerf === true) {
-  	localStorage.setItem('CS290FPUserName', null);
-  	localStorage.setItem('CS290FPUserID', null);
-  	localStorage.setItem('CS290FPLoggedOn', null);
+  	localStorage.removeItem('CS290FPUserName');
+  	localStorage.removeItem('CS290FPUserID');
+  	localStorage.removeItem('CS290FPLoggedOn');
   }
 } 
 
@@ -78,4 +78,36 @@ function localStorageExists() {
   } else {
     return false;
   }
+}
+
+function Logout() {
+  //REF: http://stackoverflow.com/questions/9334636/javascript-yes-no-alert
+  if (confirm("Are you sure you wish to logoff?")) {
+    closeOut();
+    window.location.href = arraytext + "index.html";
+  }
+}
+
+function GetUserProfile() {
+  var LSRef = localStorageExists();
+  var UserPID = 0;
+  var Return = {};
+  var URL = window.location.href + "sprocs/GetUserInfo.php"
+
+  if (LSRef === true) {
+    UserPID = localStorage.getItem('CS290FPUserID');
+  };
+  var Params = {"myprofile":1, "pid":UserPID};
+
+  Return = ajaxRequest(URL, "POST", Params, false);
+
+  if (Return.codeDetail) {
+    var Output = JSON.parse(Return.codeDetail);
+
+    document.getElementById('uname').value = Output.uname;
+    document.getElementById('fn').value = Output.fn;
+    document.getElementById('ln').value = Output.ln;
+    document.getElementById('email').value = Output.email;
+    document.getElementById('phone').value = Output.phone;
+  };
 }

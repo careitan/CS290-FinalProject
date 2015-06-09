@@ -70,7 +70,7 @@ function ValidNewName(NewValue) {
   }
 }
 
-function ajaxRequest(URL, Type, Parameters) {
+function ajaxRequest(URL, Type, Parameters, Async) {
 // Populating a null RetVal object.
 // https://piazza.com/class/i0j5uszbfur1jw?cid=238
 // Student Johnathan Moore
@@ -117,11 +117,11 @@ for (var Key in Parameters) {
 
 // Prepare the WebRequest based on the type of method we are using
 if (Type === 'GET') {
-  req.open('GET', URL + '?' + URLParams.join('&'), true);
+  req.open('GET', URL + '?' + URLParams.join('&'), Async);
   req.send(null);
 } else {
 // Setting up for POST
-req.open('POST', URL, true);
+req.open('POST', URL, Async);
 req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 req.send(URLParams.join('&'));
 }
@@ -204,4 +204,31 @@ function UserValidation() {
   };
 
   return ReturnVal;
+}
+
+function GetUserProfileEdit() {
+  var LSRef = localStorageExists();
+  var UserPID = 0;
+  var Return = {};
+  var URL = window.location.href + "sprocs/GetUserInfo.php"
+
+  if (LSRef === true) {
+    UserPID = localStorage.getItem('CS290FPUserID');
+  };
+  var Params = {"myprofile":1, "pid":UserPID};
+
+  Return = ajaxRequest(URL, "POST", Params, false);
+
+  if (Return.codeDetail) {
+    var Output = JSON.parse(Return.codeDetail);
+
+    document.createuser.uid_input.value = Output.id;
+    document.createuser.uid_input.value = Output.uname;
+    document.createuser.Password_input.value = Output.pwd
+    document.createuser.fn_input.value = Output.fn;
+    document.createuser.ln_input.value = Output.ln;
+    document.createuser.email_input.value = Output.email;
+    document.createuser.phone_input.value = Output.phone;
+    document.createuser.publish_input.checked = Output.publish;
+  };
 }

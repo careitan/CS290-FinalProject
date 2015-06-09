@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<head>
+	<title>CS 290 Final Project</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="scripts/createuser.js"></script>
+	<script src="scripts/library.js"></script>
+</head>
+<body onload="GetUserProfileEdit();">
+	<h1>Recreational Basketball Volunteer Portal</h1>
+	<div id="MessageOut" class="MessageOut"></div>
+	<h1>Recreational Basketball Volunteer Portal</h1>
+	<h2 id="greeting"></h2>
+	<div id="navigationMenu">
+		<ul id="menuList">
+			<li id="active">
+				<a id="home" href="home.html" accesskey="H" hreflang="en" tabindex=1>
+					Home
+				</a>
+			</li><li>
+			<a id="events" href="events.html" accesskey="E" hreflang="en" tabindex=2>
+				Events
+			</a>
+		</li><li>
+		<a id="venues" href="venues.html" accesskey="V" hreflang="en" tabindex=3>
+			Venues
+		</a>
+	</li><li>
+	<a id="myprofile" href="profile.html" accesskey="P" hreflang="en" tabindex=3>
+		MyProfile
+	</a>
+</li><li>
+<input id="logout" type="button" value="Logout" onclick="Logout();" tabindex=5>
+</ul>
+</div>		
+<div>
+	<form name="createuser" class="edituser" action="sprocs/UpdateUser.php" method="post">
+		<fieldset class="edituser">
+			<input type="text" name="pid_input" hidden><br>
+			<label id="required">User Name:</label>
+			<input class="uid" type="text" name="uid_input" disabled/><br>
+			<label id="required">Password:</label>
+			<input type="password" name="Password_input" required/><br>
+			<label id="required">First Name:</label>
+			<input type="text" name="fn_input" required onblur="UserValidation();"/><br>
+			<label id="required">Last Name:</label>
+			<input type="text" name="ln_input" required onblur="UserValidation();"/><br>
+			<label id="required">E-mail:</label>
+			<input type="email" name="email_input" required onblur="UserValidation();"/><br>
+			<label>Phone:</label>
+			<input class="phone" type="tel" name="phone_input" placeholder="###-###-####" pattern="\d{3}-\d{3}-\d{4}" onblur="UserValidation();"/><br>
+			<label id="required">Make Profile Public:</label>
+			<input type="checkbox" name="publish_input"/><br>
+			<input id="SaveUser" type="submit" value="Save Changes" onSubmit="UserValidation();" disabled/><br>
+			<label id="outputText"></label><br>
+		</fieldset>
+	</form>
+</div>
+</body>

@@ -15,6 +15,11 @@ form.createuser {
 	margin-right: 33%;
 }
 
+form.edituser {
+	margin-left: 33%;
+	margin-right: 33%;
+}
+
 label {
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -26,6 +31,9 @@ input {
 }
 
 fieldset.createuser+input {
+	min-width: 60%;
+}
+fieldset.edituser+input {
 	min-width: 60%;
 }
 
@@ -75,4 +83,14 @@ fieldset.createuser+input {
 #menuList li a:hover {
 	background-color: #0c0;
 	color: #fff;
+}
+
+#EditUserLink {
+	margin-left: 25%;
+	margin-right: 25%;
+}
+
+#ProfileDisplay {
+	margin-left: 25%;
+	margin-right: 25%;
 }

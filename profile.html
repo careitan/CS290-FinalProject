@@ -5,7 +5,7 @@
 	<script src="scripts/UserLogin.js"></script>
 	<script src="scripts/library.js"></script>
 </head>
-<body onunload="closeOut();">
+<body onload="GetUserProfile()">
 	<div id="MessageOut" class="MessageOut"></div>
   <h1>Recreational Basketball Volunteer Portal</h1>
   <h2 id="greeting"></h2>
@@ -27,6 +27,23 @@
   			<a id="myprofile" href="profile.html" accesskey="P" hreflang="en" tabindex=3>
   				MyProfile
   			</a>
+      </li><li>
+        <input id="logout" type="button" value="Logout" onclick="Logout();" tabindex=5>
   </div>		
-  BUILD MORE STUFF HERE
+  <div class="EditUserLink">
+    <a href="edit_user.html">Edit Profile</a>
+  </div>
+  <div class="ProfileDisplay">
+    <fieldset class="userprofile">
+      <label id="outputText" class="userprofile"></label><br>
+      <label id="profilefield" class="userprofile">User Name:</label>&nbsp;&nbsp;<label id="uname" /><br>
+      <label id="profilefield" class="userprofile">First Name:</label>&nbsp;&nbsp;<label id="fn" /><br>
+      <label id="profilefield" class="userprofile">Last Name:</label><label id="ln" /><br>
+      <label id="profilefield" class="userprofile">E-mail:</label><label id="email" /><br>
+      <label id="profilefield" class="userprofile">Phone:</label><label id="phone" /><br>
+    </fieldset>
+  </div>
+  BUILD MORE STUFF HERE<br>
+  <ul>Need
+    <li>Grid to show the events signed up for.</li>
 </body>
